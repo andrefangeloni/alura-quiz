@@ -1,0 +1,18 @@
+{
+  "bg": "https://articles.gamerheadquarters.com/images/top10/movies/10.jpg",
+  "title": "Título do Quiz",
+  "description": "Descrição do seu quiz aqui",
+  "questions": [],
+  "external": [],
+  "theme": {
+    "colors": {
+      "primary": "#4caf50",
+      "secondary": "#ff9800",
+      "mainBg": "#1c1814",
+      "contrastText": "#fff",
+      "wrong": "#ff5722",
+      "success": "#4caf50"
+    },
+    "borderRadius": "4px"
+  }
+}
