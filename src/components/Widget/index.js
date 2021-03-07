@@ -33,6 +33,10 @@ Widget.Header = styled.header`
   * {
     margin: 0;
   }
+
+  h1 {
+    color: ${({ theme }) => theme.colors.black};
+  }
 `;
 
 Widget.Content = styled.div`
@@ -46,6 +50,24 @@ Widget.Content = styled.div`
   ul {
     list-style: none;
     padding: 0;
+  }
+`;
+
+Widget.Topic = styled.a`
+  outline: 0;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.contrastText};
+  background-color: ${({ theme }) => theme.colors.primaryDark};
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  transition: 0.3s;
+  display: block;
+
+  &:hover,
+  &:focus {
+    opacity: 0.5;
   }
 `;
 

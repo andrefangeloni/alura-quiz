@@ -5,8 +5,11 @@ import { useRouter } from 'next/router';
 
 import db from '../db.json';
 
+import Input from '../src/components/Input';
+import Button from '../src/components/Button';
 import Widget from '../src/components/Widget';
 import Footer from '../src/components/Footer';
+import QuizLogo from '../src/components/QuizLogo';
 import GitHubCorner from '../src/components/GitHubCorner';
 import QuizContainer from '../src/components/QuizContainer';
 import QuizBackground from '../src/components/QuizBackground';
@@ -45,20 +48,23 @@ const Home = () => {
       </Head>
       <QuizBackground backgroundImage={db.bg}>
         <QuizContainer>
+          <QuizLogo />
+
           <Widget>
             <Widget.Header>
-              <h1>The Legend Of Zelda</h1>
+              <h1>Quiz</h1>
             </Widget.Header>
             <Widget.Content>
               <form onSubmit={onSubmit}>
-                <input
+                <Input
+                  value={name}
                   placeholder="Diz aí o seu nome"
                   onChange={(e) => setName(e.target.value)}
                 />
 
-                <button disabled={!name} type="submit">
+                <Button disabled={!name} type="submit">
                   Jogar
-                </button>
+                </Button>
               </form>
             </Widget.Content>
           </Widget>
