@@ -1,3 +1,5 @@
+import React from 'react';
+
 import styled from 'styled-components';
 
 const FooterWrapper = styled.footer`
@@ -31,10 +33,11 @@ const Footer = (props) => (
       <img
         src="https://www.alura.com.br/assets/img/alura-logo-white.1570550707.svg"
         alt="Logo Alura"
-      ></img>
+      />
     </a>
     <p>
-      Orgulhosamente criado durante a{' '}
+      Orgulhosamente criado durante a
+      {' '}
       <a href="https://www.alura.com.br">
         <span>Imersão React Alura</span>
       </a>
