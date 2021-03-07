@@ -7,6 +7,7 @@ import Widget from '../src/components/Widget';
 import QuizLogo from '../src/components/QuizLogo';
 import QuizContainer from '../src/components/QuizContainer';
 import QuizBackground from '../src/components/QuizBackground';
+import AlternativesForm from '../src/components/AlternativesForm';
 
 const screenStates = {
   QUIZ: 'QUIZ',
@@ -15,11 +16,16 @@ const screenStates = {
 };
 
 const QuizPage = () => {
+  const [results, setResults] = React.useState([]);
   const [questionIndex, setQuestionIndex] = React.useState(0);
+  const [selectedAlternative, setSelectedAlternative] = React.useState(null);
   const [screenState, setScreenState] = React.useState(screenStates.LOADING);
+  const [isQuestionSubmitted, setIsQuestionSubmitted] = React.useState(false);
 
   const question = db.questions[questionIndex];
   const totalQuestions = db.questions.length;
+
+  const isCorrect = selectedAlternative === question.answer;
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -27,16 +33,38 @@ const QuizPage = () => {
     }, 1000);
   }, []);
 
+  const AddResult = (newResult) => setResults([...results, newResult]);
+
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const nextQuestion = questionIndex + 1;
+    AddResult(isCorrect);
+    setIsQuestionSubmitted(true);
 
-    if (nextQuestion < totalQuestions) {
-      setQuestionIndex(nextQuestion);
-    } else {
-      setScreenState(screenStates.RESULT);
+    setTimeout(() => {
+      const nextQuestion = questionIndex + 1;
+
+      if (nextQuestion < totalQuestions) {
+        setQuestionIndex(nextQuestion);
+      } else {
+        setScreenState(screenStates.RESULT);
+      }
+
+      setIsQuestionSubmitted(false);
+      setSelectedAlternative(null);
+    }, 2000);
+  };
+
+  const RightOrWrong = () => {
+    if (isQuestionSubmitted) {
+      if (isCorrect) {
+        return <p>Certa resposta!</p>;
+      }
+
+      return <p>Que pena, você errou</p>;
     }
+
+    return null;
   };
 
   const QuizContent = () => {
@@ -63,57 +91,82 @@ const QuizPage = () => {
   const ResultWidget = () => (
     <Widget>
       <Widget.Header>
-        <h1>PARABÉNS!!!</h1>
+        <h1>Resultados</h1>
       </Widget.Header>
 
-      <Widget.Content>Você acertou X perguntas</Widget.Content>
+      <Widget.Content>
+        <p>
+          {`Você acertou ${
+            results.filter((result) => result).length
+          } pergunta(s)`}
+        </p>
+
+        <ul>
+          {results.map((result, index) => (
+            <li key={`result__${index * 2}`}>
+              {`Pergunta ${index + 1}: ${
+                result ? 'Acertou' : 'Errou'
+              }`}
+            </li>
+          ))}
+        </ul>
+      </Widget.Content>
     </Widget>
   );
 
-  const QuestionWidget = () => {
-    const questionId = `question__${questionIndex}`;
+  const QuestionWidget = () => (
+    <Widget>
+      <Widget.Header>
+        <h1>{`Pergunta ${questionIndex + 1} de ${totalQuestions}`}</h1>
+      </Widget.Header>
 
-    return (
-      <Widget>
-        <Widget.Header>
-          <h1>{`Pergunta ${questionIndex + 1} de ${totalQuestions}`}</h1>
-        </Widget.Header>
+      <img
+        alt="Descrição"
+        style={{
+          width: '100%',
+          height: '150px',
+          objectFit: 'cover',
+        }}
+        src={question.image}
+      />
 
-        <img
-          alt="Descrição"
-          style={{
-            width: '100%',
-            height: '150px',
-            objectFit: 'cover',
-          }}
-          src={question.image}
-        />
+      <Widget.Content>
+        <h2>{question.title}</h2>
+        <p>{question.description}</p>
 
-        <Widget.Content>
-          <h2>{question.title}</h2>
-          <p>{question.description}</p>
+        <AlternativesForm onSubmit={onSubmit}>
+          {question.alternatives.map((alternative, index) => {
+            const alternativeId = `alternative__${index}`;
+            const alternativeStatus = isCorrect ? 'SUCCESS' : 'ERROR';
 
-          <form onSubmit={onSubmit}>
-            {question.alternatives.map((alternative, index) => {
-              const alternativeId = `alternative__${index}`;
+            return (
+              <Widget.Topic
+                as="label"
+                key={alternativeId}
+                htmlFor={alternativeId}
+                data-selected={selectedAlternative === index}
+                data-status={isQuestionSubmitted && alternativeStatus}
+              >
+                <input
+                  style={{ display: 'none' }}
+                  type="radio"
+                  id={alternativeId}
+                  name={`question__${questionIndex}`}
+                  onChange={() => setSelectedAlternative(index)}
+                />
+                {alternative}
+              </Widget.Topic>
+            );
+          })}
+          <Button type="submit" disabled={selectedAlternative == null}>
+            Confirmar
+          </Button>
 
-              return (
-                <Widget.Topic
-                  as="label"
-                  key={alternativeId}
-                  htmlFor={alternativeId}
-                >
-                  <input id={alternativeId} type="radio" name={questionId} />
-                  {alternative}
-                </Widget.Topic>
-              );
-            })}
-            <Button type="submit">Confirmar</Button>
-          </form>
-        </Widget.Content>
-      </Widget>
-    );
-  };
+          <RightOrWrong />
+        </AlternativesForm>
+      </Widget.Content>
+    </Widget>
+  );
 
   return (
     <QuizBackground backgroundImage={db.bg}>

@@ -24,7 +24,10 @@
       "title": "Quais tipos de dados são suportados em JavaScript?"
     }
   ],
-  "external": [],
+  "external": [
+    "https://aluraquiz-css.omariosouto.vercel.app",
+    "https://aluraquiz-marvel.omariosouto.vercel.app"
+  ],
   "theme": {
     "colors": {
       "primary": "#f7e018",
