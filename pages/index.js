@@ -26,6 +26,21 @@ const Home = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>Alura Quiz</title>
         <meta property="og:title" content="Alura Quiz" key="title" />
+        <meta
+          property="og:description"
+          content="Projeto Imersão React 2"
+          key="description"
+        />
+        <meta
+          property="og:url"
+          content="https://alura-quiz-andrefangeloni.vercel.app/"
+          key="url"
+        />
+        <meta
+          property="og:image"
+          content="https://articles.gamerheadquarters.com/images/top10/movies/10.jpg"
+          key="image"
+        />
       </Head>
       <QuizBackground backgroundImage={db.bg}>
         <QuizContainer>
