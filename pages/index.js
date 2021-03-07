@@ -42,7 +42,7 @@ const Home = () => {
         />
         <meta
           property="og:image"
-          content="https://articles.gamerheadquarters.com/images/top10/movies/10.jpg"
+          content={db.bg}
           key="image"
         />
       </Head>
