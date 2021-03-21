@@ -2,6 +2,7 @@ import React from 'react';
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
 import db from '../db.json';
 
@@ -40,17 +41,22 @@ const Home = () => {
           content="https://alura-quiz-andrefangeloni.vercel.app/"
           key="url"
         />
-        <meta
-          property="og:image"
-          content={db.bg}
-          key="image"
-        />
+        <meta property="og:image" content={db.bg} key="image" />
       </Head>
       <QuizBackground backgroundImage={db.bg}>
         <QuizContainer>
           <QuizLogo />
 
-          <Widget>
+          <Widget
+            animate="show"
+            initial="hidden"
+            as={motion.section}
+            transition={{ delay: 0, duration: 0.5 }}
+            variants={{
+              show: { opacity: 1, y: '0' },
+              hidden: { opacity: 0, y: '100%' },
+            }}
+          >
             <Widget.Header>
               <h1>Quiz</h1>
             </Widget.Header>
@@ -69,16 +75,46 @@ const Home = () => {
             </Widget.Content>
           </Widget>
 
-          <Widget>
+          <Widget
+            animate="show"
+            initial="hidden"
+            as={motion.section}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            variants={{ show: { opacity: 1 }, hidden: { opacity: 0 } }}
+          >
             <Widget.Header>
               <h1>Quizes da Galera</h1>
             </Widget.Header>
             <Widget.Content>
-              <p>lorem ipsum dolor sit amet...</p>
+              <ul>
+                {db.external.map((linkExterno, index) => {
+                  const [projectName, githubUser] = linkExterno
+                    .replace(/\//g, '')
+                    .replace('https:', '')
+                    .replace('.vercel.app', '')
+                    .split('.');
+
+                  return (
+                    <li key={`linkExterno${index * 2}`}>
+                      <Widget.Topic
+                        href={`/quiz/${projectName}___${githubUser}`}
+                      >
+                        {`${githubUser}/${projectName}`}
+                      </Widget.Topic>
+                    </li>
+                  );
+                })}
+              </ul>
             </Widget.Content>
           </Widget>
 
-          <Footer />
+          <Footer
+            animate="show"
+            initial="hidden"
+            as={motion.footer}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            variants={{ show: { opacity: 1 }, hidden: { opacity: 0 } }}
+          />
         </QuizContainer>
 
         <GitHubCorner projectUrl="https://github.com/andrefangeloni" />

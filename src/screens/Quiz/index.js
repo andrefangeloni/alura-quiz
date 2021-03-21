@@ -1,13 +1,12 @@
 import React from 'react';
 
-import db from '../db.json';
-
-import Button from '../src/components/Button';
-import Widget from '../src/components/Widget';
-import QuizLogo from '../src/components/QuizLogo';
-import QuizContainer from '../src/components/QuizContainer';
-import QuizBackground from '../src/components/QuizBackground';
-import AlternativesForm from '../src/components/AlternativesForm';
+import Button from '../../components/Button';
+import Widget from '../../components/Widget';
+import QuizLogo from '../../components/QuizLogo';
+import BackLinkArrow from '../../components/BackLinkArrow';
+import QuizContainer from '../../components/QuizContainer';
+import QuizBackground from '../../components/QuizBackground';
+import AlternativesForm from '../../components/AlternativesForm';
 
 const screenStates = {
   QUIZ: 'QUIZ',
@@ -15,15 +14,15 @@ const screenStates = {
   RESULT: 'RESULT',
 };
 
-const QuizPage = () => {
+const QuizPage = ({ externalQuestions, externalBg }) => {
   const [results, setResults] = React.useState([]);
   const [questionIndex, setQuestionIndex] = React.useState(0);
   const [selectedAlternative, setSelectedAlternative] = React.useState(null);
   const [screenState, setScreenState] = React.useState(screenStates.LOADING);
   const [isQuestionSubmitted, setIsQuestionSubmitted] = React.useState(false);
 
-  const question = db.questions[questionIndex];
-  const totalQuestions = db.questions.length;
+  const question = externalQuestions[questionIndex];
+  const totalQuestions = externalQuestions.length;
 
   const isCorrect = selectedAlternative === question.answer;
 
@@ -117,6 +116,8 @@ const QuizPage = () => {
   const QuestionWidget = () => (
     <Widget>
       <Widget.Header>
+        <BackLinkArrow href="/" />
+
         <h1>{`Pergunta ${questionIndex + 1} de ${totalQuestions}`}</h1>
       </Widget.Header>
 
@@ -169,7 +170,7 @@ const QuizPage = () => {
   );
 
   return (
-    <QuizBackground backgroundImage={db.bg}>
+    <QuizBackground backgroundImage={externalBg}>
       <QuizContainer>
         <QuizLogo />
 

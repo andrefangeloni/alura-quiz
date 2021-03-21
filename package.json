@@ -8,11 +8,13 @@
     "eslint:init": "eslint --init"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4",
+    "framer-motion": "^4.0.0",
     "next": "latest",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
