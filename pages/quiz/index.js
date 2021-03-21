@@ -5,6 +5,7 @@ import db from '../../db.json';
 import Button from '../../src/components/Button';
 import Widget from '../../src/components/Widget';
 import QuizLogo from '../../src/components/QuizLogo';
+import BackLinkArrow from '../../src/components/BackLinkArrow';
 import QuizContainer from '../../src/components/QuizContainer';
 import QuizBackground from '../../src/components/QuizBackground';
 import AlternativesForm from '../../src/components/AlternativesForm';
@@ -117,6 +118,8 @@ const QuizPage = () => {
   const QuestionWidget = () => (
     <Widget>
       <Widget.Header>
+        <BackLinkArrow href="/" />
+
         <h1>{`Pergunta ${questionIndex + 1} de ${totalQuestions}`}</h1>
       </Widget.Header>
 

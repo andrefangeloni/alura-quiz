@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Link from '../Link';
+import Link from 'next/link';
 
 const StyledLink = styled(Link)`
+  cursor: pointer;
   transition: 0.3s;
   &:hover {
     opacity: 0.5;
